@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+
+        }
+
+        .sprite_main {
+            width: 128px; /* Adjust the width and height based on your sprite size */
+            height: 128px;
+            background-color: aqua;
+            overflow: hidden;
+            /* Adjust based on the number of frames in your sprite sheet */
+           
+        }
+        .main_char{
+            animation: playSprite 1.5s steps(6)infinite;
+            
+        }
+
+        @keyframes playSprite {
+            from {
+                
+                transform: translate3d(0px,0,0) }
+            to { transform: translate3d(-100%,0,0)} /* Adjust based on the total width of your sprite sheet */
+        }
+    </style>
+    <title>Sprite Animation</title>
+</head>
+<body>
+    <div class="sprite_main">
+        <img class='main_char' src="./craftpix-net-620836-free-fantasy-chibi-male-sprites-pixel-art/Swordsman/Attack_1.png" alt="char">
+    </div>
+</body>
+</html>

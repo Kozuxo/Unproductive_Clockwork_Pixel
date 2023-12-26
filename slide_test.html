@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css" />
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+
+    <style>
+        .slick-slider {
+            margin: 0 auto;
+            width: 70%;
+            height: 350px;
+            border: 2px solid #000;
+        }
+
+        .slick-slide {
+            transform: scale(0.8);
+            color: #0c0000;
+            transition: all 0,4s ease-in-out;
+            padding: 40px 0;
+            
+        }
+        .slick-slide img{
+            max-width:100% ;
+            transition: all 0.4s ease-in-out;
+        }
+        .slick-center{
+            transform: scale(1.1);
+
+        }
+
+        .slick-slider>div {
+            padding: 5px;
+        }
+    </style>
+</head>
+
+<body style="background-color: aqua;">
+    <div class="slider">
+        <div class="item">
+            <img src="./Game/2.png" alt="game">
+        </div>
+        <div class="item">
+            <img src="./Game/2.png" alt="game">
+        </div>
+        <div class="item">
+            <img src="./Game/2.png" alt="game">
+        </div>
+        <div class="item">
+            <img src="./Game/2.png" alt="game">
+        </div>
+        <div class="item">
+            <img src="./Game/2.png" alt="game">
+        </div>
+        <div class="item">
+            <img src="./Game/2.png" alt="game">
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            $(".slider").slick({
+                infinite: true,
+                slidesToShow: 3,
+                slidesToScroll: 3,
+                speed: 500,
+                infinite: true,
+                centerMode: true,
+                centerPadding: "0",
+            });
+        });
+    </script>
+</body>
+
+</html>
