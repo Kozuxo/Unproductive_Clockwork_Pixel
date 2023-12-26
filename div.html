@@ -1,0 +1,1520 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <link href='https://fonts.googleapis.com/css?family=Press Start 2P' rel='stylesheet'>
+  <!-- Add the slick-theme.css if you want default styling -->
+  <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
+  <!-- Add the slick-theme.css if you want default styling -->
+  <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css" />
+  <!-- slick link bellow-->
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
+  <link rel="stylesheet" type="text/css"
+    href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css" />
+  <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+  <!---->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Page Title</title>
+
+
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-analytics-compat.js"></script>
+  <script src="shared.js"></script>
+  <style>
+     .sprite_main_fight {
+            width: 128px; 
+            height: 128px;
+        
+            overflow: hidden;
+            bottom: 250px;
+            left: 850px;
+        
+            z-index: 5;
+            position: absolute;
+        
+           
+        }
+        .main_characters_fight{
+            animation: playSprite_fight 1s steps(8)infinite;
+            
+        }
+
+       
+        .sprite_enemy_fight {
+            width: 128px;
+            height: 128px;
+            bottom: 245px;
+            right: 850px;
+            z-index: 5;
+            position: absolute;
+            overflow: hidden;
+            float: right;
+            align-items: end;
+            animation: moveSprite 4s;
+        }
+
+   
+
+        .enemy_characters_fight {
+            animation: playSprite_fight 1s steps(7) infinite; /* Total duration is 5s (4s animation + 1s pause) */
+        }
+
+        @keyframes playSprite_fight {
+            0%, 100% {
+                transform: translate3d(0px, 0, 0);
+                
+            }
+               
+            100% {
+                transform: translate3d(-100%, 0, 0);
+            }
+            20%{
+                transform: translate3d(0px, 0, 0);
+
+            }
+            
+        
+        }
+.alert_modals {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); 
+    align-items: center;
+    justify-content: center;
+    z-index: 8;
+}
+
+.alert_modal_content {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+.close-button {
+    background-color: #ccc;
+    color: #333;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+      
+.item img{
+            height: 350px;
+            width: 523px;
+        }
+    .sprite_main {
+
+
+      width: 128px;
+      
+      height: 128px;
+
+      overflow: hidden;
+      bottom: 250px;
+
+      z-index: 5;
+      position: absolute;
+      
+
+    }
+    button {
+    font-family: inherit;
+    font-size: 1em;
+}
+    .sprite_enemy {
+            width: 128px; 
+            height: 128px;
+        
+            overflow: hidden;
+            bottom: 250px;
+            right : 100px;
+        
+            z-index: 5;
+            position: absolute;
+           
+           
+        }
+
+    .main_characters {
+      animation: playSprite 1.2s steps(8)infinite;
+
+    }
+
+    @keyframes playSprite {
+      from {
+
+        transform: translate3d(0px, 0, 0)
+      }
+
+      to {
+        transform: translate3d(-100%, 0, 0)
+      }
+
+    }
+
+    iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+     
+      width: 600px;
+      height: 450px;
+      allowfullscreen: true;
+      webkitallowfullscreen: true;
+      mozallowfullscreen: true;
+      scrolling: no;
+    }
+    #bossLevel {
+        font-size: 1.5em; 
+    }
+
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      justify-content: center;
+      align-items: center;
+      z-index: 3;
+    }
+
+    .modal-content {
+      background-color: #a11313be;
+      padding: 20px;
+      border-radius: 5px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+      text-align: center;
+      height: 600px;
+      width: 950px;
+      z-index: 3;
+    }
+
+    .close {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      cursor: pointer;
+    }
+
+    .slick-prev:before {
+      font-family: 'Press Start 2P';
+
+      content: "<<    ";
+      color: black;
+      font-size: 40px;
+
+    }
+
+    button.slick-prev.slick-arrow {
+      left: -75px;
+    }
+
+    .slick-next:before {
+      font-family: 'Press Start 2P';
+      content: ">>";
+      color: black;
+      font-size: 40px;
+    }
+
+    .slick-slider {
+      margin: 0 auto;
+      width: 70%;
+      padding: 20px;
+
+    }
+
+    .slider {
+      z-index: 1;
+      position: absolute;
+
+    }
+
+    .slidercontainer {
+      top: 200px;
+      height: 400px;
+      width: 100%;
+      z-index: 2;
+
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: absolute;
+
+
+    }
+
+    .slick-slide {
+      transform: scale(0.8);
+      color: #0c0000;
+      transition: all 0, 4s ease-in-out;
+      padding: 40px 0;
+
+    }
+
+    .slick-slide img {
+      max-width: 100%;
+      transition: all 0.4s ease-in-out;
+    }
+
+    .slick-center {
+      transform: scale(1.05);
+
+    }
+
+    .slick-slider>div {
+      padding: 5px;
+    }
+
+    body {
+      font-family: 'Press Start 2P';
+      font-size: 22px;
+      background-color: black;
+      color: white;
+      position: relative;
+    }
+
+    .title {
+      border: 2px solid white;
+   
+      display: flex;
+      height: 170px;
+    }
+
+    .body {
+      border: 2px solid white;
+      
+      padding: 2px;
+      
+      height: 550px;
+      overflow: hidden;
+
+    }
+
+    .body_background {
+      background: url('picture1.png')repeat-x;
+      height: 550px;
+      width: 7560px;
+      animation: slide 60s linear infinite;
+      position: relative;
+      z-index: 1;
+
+
+
+    }
+
+    .panel {
+      border: 2px solid white;
+   
+      height: 230px;
+    }
+
+    .title_conten {
+      border: 2px solid white;
+      height: 170px;
+      width: 45vw;
+    }
+
+    .clock {
+      height: 170px;
+      width: 30vw;
+      border: 2px solid white;
+      text-align: center;
+
+
+    }
+
+
+
+    .coin {
+      height: 150px;
+      width: 450px;
+      border: 2px solid rgb(248, 248, 248);
+      text-align: center;
+
+    }
+
+    .main_frame {
+      border: white;
+      height: 190px;
+      padding: 15px;
+      display: flex;
+    }
+
+    .main_char {
+      border: white;
+      height: 170px;
+      width: 45vw;
+      padding: 5px;
+      display: flex;
+
+    }
+
+    .dice_div {
+      border: 2px rgb(255, 255, 255) solid;
+      height: 160px;
+      width: 40vw;
+      display: flex;
+    }
+
+    .games {
+      height: 20px;
+      width: 300px;
+    }
+
+    #dice {
+      width: 150px;
+      height: 150px;
+      overflow: hidden;
+      cursor: pointer;
+    }
+
+    #dice img {
+      width: 100%;
+      height: 100%;
+
+      transition: transform 1.5s ease-in-out;
+    }
+
+    #rollButton {
+
+      padding: 10px;
+      font-size: 16px;
+
+    }
+
+
+    .Status {
+      border: 2px white solid;
+      height: 160px;
+      width: 25vw;
+
+    }
+
+    h1::first-letter {
+      font-size: 1.2em;
+    
+      font-weight: bold;
+     
+    }
+
+    @keyframes slide {
+      0% {
+        transform: translate3d(0, 0, 0);
+      }
+
+      100% {
+        transform: translate3d(-1920px, 0, 0);
+      
+      }
+    }
+
+    p {
+      font-size: 14px;
+      
+    }
+
+    strong {
+      font-size: 12px;
+     
+    }
+
+    span {
+      font-size: 12px;
+      
+    }
+
+
+    .fight_boss_button {
+      background-color: black;
+      height: 160px;
+      width: 450px;
+      position: absolute;
+      left: 719px;
+      z-index: 2;
+      bottom: 50px;
+      align-items: center;
+      justify-content: center;
+      justify-items: center;
+      display: flex;
+      border: whitesmoke 5px solid;
+
+
+
+
+    }
+
+    .button-89 {
+      --b: 5px;
+     
+      --s: 1.45em;
+      
+      --color: #f5f6f8;
+
+      padding: calc(.5em + var(--s)) calc(.9em + var(--s));
+      color: var(--color);
+      --_p: var(--s);
+      background:
+        conic-gradient(from 90deg at var(--b) var(--b), #0000 90deg, var(--color) 0) var(--_p) var(--_p)/calc(100% - var(--b) - 2*var(--_p)) calc(100% - var(--b) - 2*var(--_p));
+      transition: .3s linear, color 0s, background-color 0s;
+      outline: var(--b) solid #ffffff00;
+      outline-offset: .6em;
+      font-size: 27px;
+
+      border: 0;
+
+      user-select: none;
+      -webkit-user-select: none;
+      touch-action: manipulation;
+      font-style: "Press Start 2P";
+    }
+
+    .button-89:hover,
+    .button-89:focus-visible {
+      --_p: 0px;
+      outline-color: var(--color);
+      outline-offset: .05em;
+    }
+
+    .button-89:active {
+      background: var(--color);
+      color: #000000;
+      
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .end_fight_button {
+      background-color: #000000;
+      color: white;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-top: auto;
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .fight_boss_button {
+      background-color: black;
+      height: 160px;
+      width: 445px;
+      position: absolute;
+      left: 715px;
+      z-index: 2;
+      bottom: 45px;
+      align-items: center;
+      justify-content: center;
+      justify-items: center;
+      display: flex;
+      border: #dadfdb 5px solid;
+
+
+
+
+    }
+
+
+    .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            justify-content: center;
+            align-items: center;
+            z-index: 3;
+        }
+
+
+              .modal-content {
+            background-color: #a11313be;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            text-align: center;
+            height: 600px;
+            width: 950px;
+            z-index: 3;
+        }
+  </style>
+
+<script>
+  var alert_modal_frame = document.getElementById("alert_modal");
+  var alert_botton = document.getElementById("colse_alert");
+  function closeInsufficientCoinsModal() {
+      document.getElementById("insufficientCoinsModal").style.display = "none";
+    }
+  
+
+  document.addEventListener("DOMContentLoaded", function () {
+    var fight_buttons = document.getElementById("fight_button");
+    var fight_b_frame = document.getElementById("fight_button_frame");
+   
+
+    fight_buttons.addEventListener("click", function () {
+      fight_b_frame.style.display = "none";
+      fight_b_frame.classList.add("hidden");
+      fight_buttons.classList.add("hidden");
+      refreshStats()
+
+
+    })
+
+
+
+
+    close_fight.addEventListener("click", function () {
+      fight_arena_frame.style.display = "none";
+      // fight_b_frame.style.display= "flex";
+      // fight_b_frame.classList.remove("hidden");
+      // fight_buttons.classList.remove("hidden");
+
+    })
+    
+
+
+    alertModalButton.addEventListener('click', closeAlertModal);
+
+
+
+
+
+  })
+
+  function changeImage() {
+    var enemy = document.getElementById("enemy_sprite");
+    var main_char = document.getElementById("main_sprite");
+
+    enemy.src = "./craftpix-net-479518-free-fantasy-enemies-pixel-art-sprite-pack/Skeleton/Attack_3_left.png";
+    main_char.src = "./craftpix-net-620836-free-fantasy-chibi-male-sprites-pixel-art/Swordsman/Attack_1.png";
+    main_char.style.animation = "playSprite_fight 0.5s steps(6) infinite";
+    enemy.style.animation = "playSprite_fight 0.5s steps(7) infinite"; 
+
+    setTimeout(function () {
+        
+        main_char.style.animation = "playSprite_fight 0.5s steps(8) infinite";
+        enemy.style.animation = "playSprite_fight 0.5s steps(7) infinite";
+        main_char.src = "./craftpix-net-620836-free-fantasy-chibi-male-sprites-pixel-art/Swordsman/Idle.png";
+        enemy.src = "./craftpix-net-479518-free-fantasy-enemies-pixel-art-sprite-pack/Skeleton/Idle.png";
+    }, 2000);
+}
+  let loggedInUser;
+  let userData;
+
+  auth.onAuthStateChanged((user) => {
+    if (user) {
+     
+      loggedInUser = user.email;
+      displayUserInfo();
+      initializeTimer();
+    } else {
+      
+      console.log('User is not logged in.');
+
+    }
+  });
+
+
+  let userStatsBeforeFight = null;
+
+  let seconds = 0;
+  let statIncrementTime = 0;
+  const statIncrementInterval = 300; 
+
+  // User stats
+  let userHp = 500;
+  let userAttack = 10;
+  let userDefense = 5;
+  let userAgility = 8;
+  let diceMultiplier = 1;
+
+  // Boss stats
+  let bossHp = 1000;
+  let bossAttack = 12;
+  let bossDefense = 8;
+  let bossAgility = 6;
+  let bossDiceRoll = 0;
+
+  updateStats();
+
+  function formatTime(seconds) {
+    const hours = Math.floor(seconds / 3600);
+    const minutes = Math.floor((seconds % 3600) / 60);
+    const remainingSeconds = seconds % 60;
+    return `${hours}:${minutes}:${remainingSeconds}`;
+  }
+
+  function updateTimer() {
+    seconds++;
+    document.getElementById('timer').innerText = formatTime(seconds) + ' elapsed';
+
+    
+    statIncrementTime++;
+    if (statIncrementTime >= statIncrementInterval) {
+      statIncrementTime = 0; 
+
+      const username = getUsername();
+      if (username) {
+        const userRef = database.ref('users/' + username.replace('.', '_'));
+        userRef.once('value')
+          .then((snapshot) => {
+            const userData = snapshot.val();
+            userData.hp++;
+            userData.attack++;
+            userData.defend++;
+            userData.agility++;
+            userRef.set(userData);
+            displayUserInfo(username);
+          })
+          .catch((error) => {
+            console.error(error.message);
+          });
+      }
+    }
+
+    const username = getUsername();
+    if (username) {
+      const userRef = database.ref('users/' + username.replace('.', '_'));
+      userRef.child('timeSpent').set(seconds);
+    }
+  }
+
+
+  function openModal(iframeSrc,coin) {
+    var useCoin =  doccument.getElementById('coinsCount').textContent;
+        var coinValue = parseInt(useCoin, 10);
+        if (coinValue>=coin){
+          document.getElementById('game_modal').style.display = 'flex';
+
+          document.getElementById('modalIframe').src = iframeSrc;
+        }
+        else{
+          document.getElementById('game_modal').style.display = 'flex';
+          document.getElementById('modalIframe').src = "";
+  
+
+
+        }
+      }
+
+      function closeModal() {
+          document.getElementById('game_modal').style.display = 'none';
+          document.getElementById('modalIframe').src = '';
+      }
+
+      window.onclick = function (event) {
+          if (event.target.className === 'modal-overlay') {
+              event.target.style.display = 'none';
+          }
+      };
+
+  function initializeTimer() {
+    const username = getUsername();
+    if (username) {
+      const userRef = database.ref('users/' + username.replace('.', '_'));
+      userRef.child('timeSpent').once('value')
+        .then((snapshot) => {
+          const storedTime = snapshot.val();
+          if (storedTime) {
+            seconds = storedTime;
+            document.getElementById('timer').innerText = formatTime(seconds) + ' elapsed';
+          }
+        })
+        .catch((error) => {
+          console.error(error.message);
+        });
+    }
+
+   
+  }
+
+  function getUsername() {
+    return loggedInUser;
+  }
+
+  window.onload = initializeTimer;
+
+  function createAccount() {
+    const username = prompt('Enter your email:');
+    const password = prompt('Enter your password:');
+    if (username && password) {
+      auth.createUserWithEmailAndPassword(username, password)
+        .then(() => {
+          const userData = {
+            hp: 1000,
+            attack: 10,
+            defend: 5,
+            agility: 8,
+            timeSpent: 0,
+            statIncrementTime: 0,
+            coins: 0, 
+            currentBossLevel: 1,  
+          };
+
+          const userPath = 'users/' + username.replace('.', '_');
+          database.ref(userPath).set(userData);
+          displayUserInfo(username);
+        })
+        .catch((error) => {
+          alert(error.message);
+        });
+    }
+  }
+
+  function setupBossStats(currentBossLevel) {
+    bossHp = 1000 * Math.pow(2, currentBossLevel - 1);
+    bossAttack = 12 * Math.pow(2, currentBossLevel - 1);
+    bossDefense = 8 * Math.pow(2, currentBossLevel - 1);
+    bossAgility = 6 * Math.pow(2, currentBossLevel - 1);
+    updateStats();
+  }
+
+
+  function login() {
+    waitForAuthReady(() => {
+      const username = prompt('Enter your email:');
+      const password = prompt('Enter your password:');
+      if (username && password) {
+        auth.signInWithEmailAndPassword(username, password)
+          .then(() => {
+            loggedInUser = username;
+            initializeTimer();
+            displayUserInfo(username);
+            
+            updateUserInfoFromDatabase(username).then(() => {
+             
+              const userRef = database.ref('users/' + username.replace('.', '_'));
+              userRef.once('value').then((snapshot) => {
+                const userData = snapshot.val();
+                document.getElementById('bossLevel').innerText = userData.currentBossLevel;
+                setupBossStats(userData.currentBossLevel);
+              }).catch((error) => {
+                console.error(error.message);
+              });
+            }).catch((error) => {
+              console.error(error.message);
+            });
+          })
+          .catch((error) => {
+            alert(error.message);
+          });
+      }
+    });
+  }
+
+
+  function waitForAuthReady(callback) {
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      unsubscribe();
+      callback();
+    });
+  }
+
+  function displayUserInfo() {
+    const userRef = database.ref('users/' + loggedInUser.replace('.', '_'));
+    userRef.once('value')
+      .then((snapshot) => {
+        const userData = snapshot.val();
+        console.log('Retrieved user data:', userData);
+
+        if (userData) {
+          
+          const userInfo = document.getElementById('user-info');
+          userInfo.textContent = `Logged in as ${loggedInUser}.`;
+
+         
+          const coinsCountElement = document.getElementById('coinsCount');
+          if (coinsCountElement) {
+            coinsCountElement.textContent = userData.coins;
+          }
+        } else {
+          alert('User data not found');
+        }
+      })
+      .catch((error) => {
+        alert(error.message);
+      });
+  }
+
+
+
+  function updateUserInfoFromDatabase(username) {
+    return new Promise((resolve, reject) => {
+      const userRef = database.ref('users/' + username.replace('.', '_'));
+      userRef.once('value')
+        .then((snapshot) => {
+          const userData = snapshot.val();
+          if (userData) {
+           
+            userAttack = userData.attack;
+            userDefense = userData.defend;
+            userAgility = userData.agility;
+
+            userHp = userData.hp;
+            updateStats();  
+            resolve(userData);  
+          } else {
+            reject(new Error('User data not found'));
+          }
+        })
+        .catch((error) => {
+          reject(error);
+        });
+    });
+  }
+
+
+
+
+
+
+  function updateStats() {
+    console.log('Updating stats...');
+
+    const userHpElement = document.getElementById('userHp');
+    const userAttackElement = document.getElementById('userAttack');
+    const userDefenseElement = document.getElementById('userDefense');
+    const userAgilityElement = document.getElementById('userAgility');
+    const diceMultiplierElement = document.getElementById('diceMultiplier');
+    const bossHpElement = document.getElementById('bossHp');
+    const bossAttackElement = document.getElementById('bossAttack');
+    const bossDefenseElement = document.getElementById('bossDefense');
+    const bossAgilityElement = document.getElementById('bossAgility');
+    const bossDiceRollElement = document.getElementById('bossDiceRoll');
+    const coinsCountElement = document.getElementById('coinsCount');
+    const bossLevelElement = document.getElementById('bossLevel'); 
+
+
+
+
+    if (userHpElement) userHpElement.innerText = userHp;
+    else console.error('userHpElement not found!');
+
+    if (userAttackElement) userAttackElement.innerText = userAttack;
+    else console.error('userAttackElement not found!');
+
+    if (userDefenseElement) userDefenseElement.innerText = userDefense;
+    else console.error('userDefenseElement not found!');
+
+    if (userAgilityElement) userAgilityElement.innerText = userAgility;
+    else console.error('userAgilityElement not found!');
+
+    if (diceMultiplierElement) diceMultiplierElement.innerText = diceMultiplier;
+    else console.error('diceMultiplierElement not found!');
+
+    if (bossHpElement) bossHpElement.innerText = bossHp;
+    else console.error('bossHpElement not found!');
+
+    if (bossAttackElement) bossAttackElement.innerText = bossAttack;
+    else console.error('bossAttackElement not found!');
+
+    if (bossDefenseElement) bossDefenseElement.innerText = bossDefense;
+    else console.error('bossDefenseElement not found!');
+
+    if (bossAgilityElement) bossAgilityElement.innerText = bossAgility;
+    else console.error('bossAgilityElement not found!');
+
+    if (bossDiceRollElement) bossDiceRollElement.innerText = bossDiceRoll === 0 ? '-' : bossDiceRoll;
+    else console.error('bossDiceRollElement not found!');
+
+    if (userData && 'currentBossLevel' in userData) {
+      console.log('Updating boss level:', userData.currentBossLevel);
+
+      if (bossLevelElement) {
+        bossLevelElement.innerText = userData.currentBossLevel;
+      } else {
+        console.error('bossLevelElement not found!');
+      }
+    } else {
+      console.error('Invalid userData:', userData);
+    }
+
+  }
+
+
+  function displayDamageAnimation(targetId, damage, callback) {
+    var targetElement = document.getElementById(targetId);
+    var damageSpan = document.createElement('span');
+    damageSpan.classList.add('damage-animation');
+    damageSpan.textContent = `-${damage}`;
+    targetElement.appendChild(damageSpan);
+
+    damageSpan.addEventListener('animationend', function animationEndHandler() {
+      damageSpan.removeEventListener('animationend', animationEndHandler);
+      damageSpan.remove();
+      if (typeof callback === 'function') {
+        callback();
+      }
+    });
+  }
+  function updateBattleLog(message) {
+    var battleLogElement = document.getElementById('battleLog');
+    var logItem = document.createElement('div');
+    logItem.textContent = message;
+    battleLogElement.appendChild(logItem);
+    battleLogElement.scrollTop = battleLogElement.scrollHeight;
+  }
+
+  let bossDefeated = false;
+ 
+
+  function resetGame() {
+    let userData; 
+
+    if (userStatsBeforeFight) {
+     
+      userHp = userStatsBeforeFight.hp;
+      userAttack = userStatsBeforeFight.attack;
+      userDefense = userStatsBeforeFight.defend;
+      userAgility = userStatsBeforeFight.agility;
+
+      updateStats();
+    } else {
+      
+      const username = getUsername();
+      if (username) {
+        updateUserInfoFromDatabase(username)
+          .then((userDataResult) => {
+            userData = userDataResult;  
+           
+            updateStats();
+          })
+          .catch((error) => {
+            console.error(error.message);
+           
+          });
+      }
+    }
+
+    if (bossHp <= 0) {
+
+      fight_b_frame.style.display = "flex";
+      fight_b_frame.classList.remove("hidden");
+      fight_buttons.classList.remove("hidden");
+      
+      const username = getUsername();
+      if (username) {
+        const userRef = database.ref('users/' + username.replace('.', '_'));
+        userRef.once('value')
+          .then((snapshot) => {
+            userData = snapshot.val();  
+            userData.coins++;
+            userData.currentBossLevel++;
+            userRef.set(userData);
+
+            document.getElementById('bossLevel').innerText = userData.currentBossLevel;
+
+            bossHp = 1000 * Math.pow(2, userData.currentBossLevel - 1);
+            bossAttack = 12 * Math.pow(2, userData.currentBossLevel - 1);
+            bossDefense = 8 * Math.pow(2, userData.currentBossLevel - 1);
+            bossAgility = 6 * Math.pow(2, userData.currentBossLevel - 1);
+
+            updateStats();
+            clearBattleLog();
+            displayUserInfo(username);
+
+            bossDefeated = true;
+
+            setupBossStats(userData.currentBossLevel);
+          })
+          .catch((error) => {
+            console.error(error.message);
+          });
+      }
+    }
+
+    if (userHp <= 0) {
+      
+      alert_modal_frame.classList.remove("hidden");
+
+      fight_b_frame.style.display = "flex";
+      fight_b_frame.classList.remove("hidden");
+      fight_buttons.classList.remove("hidden");
+      
+      if (bossDefeated) {
+        bossHp = 1000 * Math.pow(2, userData.currentBossLevel - 1);
+        bossAttack = 12 * Math.pow(2, userData.currentBossLevel - 1);
+        bossDefense = 8 * Math.pow(2, userData.currentBossLevel - 1);
+        bossAgility = 6 * Math.pow(2, userData.currentBossLevel - 1);
+      }
+      
+      else {
+        
+        bossHp = 1000;
+        bossAttack = 12;
+        bossDefense = 8;
+        bossAgility = 6;
+
+        if (userStatsBeforeFight) {
+          
+          userHp = userStatsBeforeFight.hp;
+          userAttack = userStatsBeforeFight.attack;
+          userDefense = userStatsBeforeFight.defend;
+          userAgility = userStatsBeforeFight.agility;
+
+          updateStats();
+        } else {
+          
+          const username = getUsername();
+          if (username) {
+            updateUserInfoFromDatabase(username)
+              .then((userDataResult) => {
+                userData = userDataResult;  
+              
+                updateStats();
+              })
+              .catch((error) => {
+                console.error(error.message);
+                
+              });
+          }
+        }
+      }
+
+      diceMultiplier = 1;
+      bossDiceRoll = 0;
+
+      updateStats();
+      clearBattleLog();
+
+      userStatsBeforeFight = null;
+    }
+
+  }
+  function exit_alert(){
+      alert_modal_frame.classList.add("hidden");
+
+
+  }
+  function clearBattleLog() {
+    document.getElementById('battleLog').innerHTML = '';
+  }
+
+
+  function fightBoss() {
+    
+    userStatsBeforeFight = {
+      hp: userHp,
+      attack: userAttack,
+      defend: userDefense,
+      agility: userAgility,
+    };
+
+    rollDadu();
+
+    setTimeout(() => {
+      
+      if (bossHp <= 0) {
+        
+        bossDefeated = true;
+
+        bossHp = 1000 * Math.pow(2, userData.currentBossLevel - 1);
+        bossAttack = 12 * Math.pow(2, userData.currentBossLevel - 1);
+        bossDefense = 8 * Math.pow(2, userData.currentBossLevel - 1);
+        bossAgility = 6 * Math.pow(2, userData.currentBossLevel - 1);
+      } else {
+        
+        bossDefeated = false;
+      }
+
+      resetGame();
+    }, 1000); 
+  }
+
+
+
+
+  function refreshStats() {
+    const username = getUsername();
+    if (username) {
+      updateUserInfoFromDatabase(username)
+        .then((userDataResult) => {
+          if (userDataResult) {
+            userData = userDataResult;
+           
+            refreshBossStats(); 
+            updateStats();
+            
+          } else {
+            alert('User data not found');
+          }
+        })
+        .catch((error) => {
+          console.error(error.message);
+          alert('Failed to refresh stats. Please try again.');
+        });
+    }
+  }
+
+
+  function refreshBossStats() {
+    const username = getUsername();
+    if (username) {
+      const userRef = database.ref('users/' + username.replace('.', '_'));
+      userRef.once('value')
+        .then((snapshot) => {
+          const userData = snapshot.val();
+          if (userData) {
+            // Update boss stats from the database
+            bossHp = 1000 * Math.pow(2, userData.currentBossLevel - 1);
+            bossAttack = 12 * Math.pow(2, userData.currentBossLevel - 1);
+            bossDefense = 8 * Math.pow(2, userData.currentBossLevel - 1);
+            bossAgility = 6 * Math.pow(2, userData.currentBossLevel - 1);
+
+            console.log('Boss Stats:', bossHp, bossAttack, bossDefense, bossAgility);
+
+            updateStats();
+            
+          } else {
+            alert('User data not found');
+          }
+        })
+        .catch((error) => {
+          console.error(error.message);
+          alert('Failed to refresh boss stats. Please try again.');
+        });
+    }
+  }
+
+
+
+
+  let Dice_value = 1;
+
+
+  function openModal(iframeSrc,coin) {
+    var useCoin = document.getElementById('coinsCount').textContent;
+        var coinValue = parseInt(useCoin, 10);
+        if (coinValue>=coin){
+          document.getElementById('game_modal').style.display = 'flex';
+
+          document.getElementById('modalIframe').src = iframeSrc;
+        }
+        else{
+          document.getElementById('insufficientCoinsModal').style.display = 'flex';
+          document.getElementById('modalIframe').src = "";
+
+
+        }
+      }
+
+      function closeModal() {
+          document.getElementById('game_modal').style.display = 'none';
+          document.getElementById('modalIframe').src = '';
+      }
+
+      window.onclick = function (event) {
+          if (event.target.className === 'modal-overlay') {
+              event.target.style.display = 'none';
+          }
+      };
+
+  function rollDadu() {
+    rollDice((diceValue) => {
+      
+      diceMultiplier = diceValue;
+      
+    });
+    var damageToBoss = (userAttack * diceMultiplier) - bossDefense;
+    bossHp -= damageToBoss > 0 ? damageToBoss : 0;
+
+    if (bossHp <= 0) {
+      alert("Congratulations! You defeated the boss!");
+      munculBox();
+      resetGame();
+
+    } else {
+      displayDamageAnimation('bossHp', damageToBoss);
+
+      setTimeout(() => {
+        bossDiceRoll = Math.floor(Math.random() * 20) + 1;
+        var damageToUser = (bossAttack * bossDiceRoll) - userDefense;
+        userHp -= damageToUser > 0 ? damageToUser : 0;
+
+        console.log('Boss inflicted ' + damageToUser + ' damage to the user');
+        console.log('User HP after boss attack:', userHp);
+
+        if (userHp <= 0) {
+          alert("Game Over! The boss defeated you.");
+          munculBox();
+          resetGame();
+        } else {
+          displayDamageAnimation('userHp', damageToUser);
+
+          // Delay the updateStats and updateBattleLog
+          setTimeout(() => {
+            updateStats();
+            updateBattleLog('User inflicted ' + damageToBoss + ' damage to the boss');
+          }, 1000); 
+        }
+
+
+      }, 1000); 
+    }
+  }
+
+  function munculBox() {
+    var fight_buttons = document.getElementById("fight_button");
+    var fight_b_frame = document.getElementById("fight_button_frame");
+
+    fight_b_frame.style.display = "flex";
+    fight_b_frame.classList.remove("hidden");
+    fight_buttons.classList.remove("hidden");
+  }
+
+  function rollDice(callback) {
+    const diceElement = document.getElementById('diceImage');
+    const valueElement = document.getElementById('diceValue');
+    const numberOfImages = 30;
+    const rollDuration = 1500; 
+    let currentImage = 1;
+    let interval;
+
+    document.getElementById('rollButton').disabled = true;
+
+    interval = setInterval(() => {
+      const randomNumber = Math.floor(Math.random() * 20) + 1;
+      const imagePath = `${randomNumber}.png`;
+      diceElement.src = imagePath;
+
+      if (currentImage === numberOfImages) {
+        valueElement.textContent = `Dice Value: ${randomNumber}`;
+        document.getElementById('rollButton').disabled = false;
+        clearInterval(interval);
+
+        callback(randomNumber);
+      }
+
+      currentImage++;
+    }, rollDuration / numberOfImages);
+  }
+
+  function formatTime(seconds) {
+    const hours = Math.floor(seconds / 3600);
+    const minutes = Math.floor((seconds % 3600) / 60);
+    const remainingSeconds = seconds % 60;
+    return `${hours}:${minutes}:${remainingSeconds}`;
+  }
+
+  function updateTimer() {
+    seconds++;
+    document.getElementById('timer').innerText = formatTime(seconds) + ' elapsed';
+  }
+
+
+
+  setInterval(updateTimer, 1000);
+
+  //slicker
+  $(document).ready(function () {
+    $(".slider").slick({
+      infinite: true,
+      slidesToShow: 3,
+      slidesToScroll: 3,
+      speed: 500,
+      infinite: true,
+      centerMode: true,
+      centerPadding: "0",
+    });
+  });
+
+</script>
+</head>
+
+
+<body>
+  
+  <div class="alert_modals hidden" id="alert_modal">
+    <div class="alert_modal_content">
+      <button class="close-alert-button" id="close_alert" onclick="exit_alert()">Close Modal</button>
+    </div>
+</div>  
+   <div class="modal-overlay" id="game_modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <iframe id="modalIframe" src="" frameborder="0" allowfullscreen></iframe>
+            Enjoy, if you cannot enjoy, get more coin!
+        </div>
+    </div>
+  <div class="title">
+
+    <div class="clock">
+
+
+      <h2>Count Up Timer</h2>
+      <p>Time spent on the website:</p>
+      <div id="timer">0 seconds</div>
+    </div>
+    <div class="title_conten">
+
+      <h1>Unproductive</h1>
+      <h1>Clockwork Pixel</h1>
+    </div>
+    <div class="coin">
+      <div>
+        <div style="height: 60px; border: #ffffff   solid; text-align: center;">
+          
+          <p id="userCoins"><strong>Coins:</strong> <span id="coinsCount">0</span></p>
+
+        </div>
+        <div id="user-info"></div>
+      </div>
+
+      <!-- <div style="height: 80px; border: #c00909   solid; display: flex; justify-content: center; ">
+                    <p style="border: 5 px cyan solid;">gambar</p>
+                    <p>x2</p> -->
+
+
+
+    </div>
+  </div>
+
+  </div>
+  </div>
+  <div class="body">
+    <div class=" slidercontainer">
+      <div class="slider">
+        <div class="item">
+          <img src="./Game/2.png" id="game1"
+            onclick="openModal('https://www.retrogames.cc/embed/32117-super-smash-bros-usa.html',0)">
+        </div>
+        <div class="item">
+          <img src="./Game/tekken3.jpg" alt="game"
+            onclick="openModal('https://www.retrogames.cc/embed/40238-tekken-3.html', 1)">
+            Need 1 Coins to unlock
+        </div>
+        <div class="item">
+          
+          <img src="./Game/street_fighter.jpeg" alt="game"
+            onclick="openModal('https://www.retrogames.cc/embed/10042-street-fighter-ii-champion-edition-yyc-bootleg-set-2-920313-etc-bootleg.html',2)">
+
+            Need 2 Coins to unlock
+        </div>
+        <div class="item">
+          <img src="./Game/crash.jpeg" alt="game"
+            onclick="openModal('https://www.retrogames.cc/embed/40784-crash-bandicoot.html',3)">
+            Need 3 Coins to unlock
+        </div>
+        <div class="item">
+          <img src="./Game/marvel_vs_capcom.jpeg" alt="game"
+            onclick="openModal('https://www.retrogames.cc/embed/9123-marvel-vs-capcom-clash-of-super-heroes-980123-usa.html',4)">
+            Need 4 Coins to unlock
+          </div>
+      </div>
+    </div>
+    <div class="sprite_main">
+      <img class='main_characters'
+        src="./craftpix-net-620836-free-fantasy-chibi-male-sprites-pixel-art/Swordsman/Walk.png" alt="char">
+    </div>
+    <div class="sprite_enemy">
+      <img class='main_characters'
+        src="./craftpix-net-479518-free-fantasy-enemies-pixel-art-sprite-pack/Skeleton/Walk.png" alt="char">
+    </div>
+    <div class="body_background"></div>
+    <div class="sprite_main_fight">
+      <img class='main_characters_fight' src="./craftpix-net-620836-free-fantasy-chibi-male-sprites-pixel-art/Swordsman/Idle.png" alt="char" id="main_sprite">
+  </div>
+  <div class="sprite_enemy_fight">
+      <img class='enemy_characters_fight' src="./craftpix-net-479518-free-fantasy-enemies-pixel-art-sprite-pack/Skeleton/Idle.png" alt="char" id="enemy_sprite">
+  </div>
+    
+
+
+  </div>
+
+  <div class="panel">
+    <div class="main_frame">
+      <div class="main_char">
+        <div style="height: 160px; width: 200px;border: #ffffff solid;">
+
+          <img src="./portrait.jpeg" alt="" style="height: 160px;width: 200px;">
+
+        </div>
+        <div class="Status">
+          <div id="userStats" style="padding: 20px;">
+
+            User Stats
+            <p><strong>HP:</strong> <span id="userHp">100</span></p>
+            <p><strong>Attack:</strong> <span id="userAttack">10</span></p>
+            <p><strong>Defense:</strong> <span id="userDefense">5</span></p>
+            <p><strong>Agility:</strong> <span id="userAgility">8</span></p>
+
+          
+          </div>
+        </div>
+
+      </div>
+
+      <div class="fight_boss_button" id="fight_button_frame">
+        <button id="fight_button" class="button-89">Boss Fight! </button>
+
+      </div>
+      <div class="dice_div">
+        <div id="dice" style="width: 150px;">
+          <img id="diceImage" src="1.png" alt="Dice">
+        </div>
+        <div>
+          <div>
+            <h5 id="diceValue">Dice Value: 1</h5>
+          </div>
+          <div style=" display: flex; align-items: center;
+justify-content: center;">
+            <button id="rollButton" onclick=" changeImage(); rollDadu() ;exit_alert()">Roll Dice</button>
+
+          </div>
+
+        </div>
+
+
+      </div>
+
+
+
+      <div class="main_char">
+        <div style="height: 160px; width: 200px;border: #ffffff solid;">
+
+          <img src="./skeleton.jpeg" alt="" style="height: 160px;width: 200px;">
+
+        </div>
+        <div class="Status">
+          <div id="bossStats"  style="padding: 10px;" >
+           
+              Boss Level: <span id="bossLevel">1</span>
+            <p><strong>HP:</strong> <span id="bossHp">100</span></p>
+            <p><strong>Attack:</strong> <span id="bossAttack">12</span></p>
+            <p><strong>Defense:</strong> <span id="bossDefense">8</span></p>
+            <p><strong>Agility:</strong> <span id="bossAgility">6</span></p>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+
+  </div>
+
+</body>
+
+</html>

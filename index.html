@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - Game with Firebase Stats</title>
+
+  <link href='https://fonts.googleapis.com/css?family=Press Start 2P' rel='stylesheet'>
+
+
+  <style>
+    body {
+      font-family: 'Press Start 2P';
+      background-color: #f4f4f4;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+
+
+    #video-background {
+      position: fixed;
+      right: 0;
+      bottom: 0;
+      min-width: 100%; 
+      min-height: 100%;
+      width: auto;
+      height: auto;
+      z-index: -1;
+    }
+
+    #content {
+      z-index: 1;
+      text-align: center;
+      
+    }
+
+   
+
+   button {
+    border-radius: 10px;
+   }
+
+    input {
+      padding: 8px;
+      margin: 5px;
+      font-size: 14px;
+    }
+
+
+    .email {
+      background-color: rgba(200, 200, 200, 0.7);
+      padding: 20px;
+      color: #fff;
+      position: relative;
+      border-radius: 10px;
+    }
+
+    .box {
+  background-color: rgba(136, 136, 136, 0.7);
+  padding: 20px;
+  color: #fff;
+  position: relative;
+  align-items: center; 
+  display: flex; 
+  flex-direction: column; 
+  justify-content: center; 
+  text-align: center; 
+  border-radius: 10px; 
+  margin: auto; 
+  max-width: 400px; 
+}
+
+
+
+
+    h1 {
+      top: 10%;
+      font-size: 5em;
+      padding: 20px;
+      color: #fff;
+      position: relative;
+      animation: glitch 1s infinite alternate;
+      border-radius: 10px; 
+      text-shadow: 30px 30px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+      line-height: -10;
+      margin: 0;
+}
+
+    @keyframes glitch {
+      0% {
+        transform: translate(0);
+      }
+      25% {
+        transform: translate(4px, -4px);
+      }
+      50% {
+        transform: translate(-4px, 4px);
+      }
+      75% {
+        transform: translate(2px, -2px);
+      }
+      100% {
+        transform: translate(0);
+      }
+    }
+    
+    h2 {
+      background-color: rgba(200, 200, 200, 0.7);
+      padding: 20px;
+      color: #fff;
+      position: relative;
+      border-radius: 10px;
+    }
+  </style>
+  <!-- Firebase scripts (non-module versions) -->
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-analytics-compat.js"></script>
+
+  
+
+  <script>
+     const firebaseConfig = {
+      apiKey: "AIzaSyDiCHEzbfWANNoRFinVojyT8bLU3RukT7E",
+      authDomain: "unproductive-clockwork-pixel.firebaseapp.com",
+      databaseURL: "https://unproductive-clockwork-pixel-default-rtdb.asia-southeast1.firebasedatabase.app",
+      projectId: "unproductive-clockwork-pixel",
+      storageBucket: "unproductive-clockwork-pixel.appspot.com",
+      messagingSenderId: "463047297753",
+      appId: "1:463047297753:web:ce01a3e27d83a141fb0cc8",
+      measurementId: "G-GC9VJVGVFW"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const database = firebase.database();
+    let loggedInUser;
+
+  function waitForAuthReady(callback) {
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      unsubscribe();
+      callback();
+    });
+  }
+
+  function updateTimer() {
+      seconds++;
+      document.getElementById('timer').innerText = formatTime(seconds) + ' elapsed';
+
+      statIncrementTime++;
+      if (statIncrementTime >= statIncrementInterval) {
+        statIncrementTime = 0; 
+
+        const username = getUsername();
+        if (username) {
+          const userRef = database.ref('users/' + username.replace('.', '_'));
+          userRef.once('value')
+            .then((snapshot) => {
+              const userData = snapshot.val();
+              userData.hp++;
+              userData.attack++;
+              userData.defend++;
+              userData.agility++;
+              userRef.set(userData);
+              displayUserInfo(username);
+            })
+            .catch((error) => {
+              console.error(error.message);
+            });
+        }
+      }
+
+      const username = getUsername();
+      if (username) {
+        const userRef = database.ref('users/' + username.replace('.', '_'));
+        userRef.child('timeSpent').set(seconds);
+      }
+    }
+
+  function getUsername() {
+      return loggedInUser;
+    }
+
+  function initializeTimer() {
+      const username = getUsername();
+      if (username) {
+        const userRef = database.ref('users/' + username.replace('.', '_'));
+        userRef.child('timeSpent').once('value')
+          .then((snapshot) => {
+            const storedTime = snapshot.val();
+            if (storedTime) {
+              seconds = storedTime;
+              document.getElementById('timer').innerText = formatTime(seconds) + ' elapsed';
+            }
+          })
+          .catch((error) => {
+            console.error(error.message);
+          });
+      }
+
+      setInterval(updateTimer, 1000);
+    }
+
+    function createAccount() {
+      const username = prompt('Enter your email:');
+      const password = prompt('Enter your password:');
+      if (username && password) {
+        auth.createUserWithEmailAndPassword(username, password)
+          .then(() => {
+const userData = {
+  hp: 1000,
+  attack: 10,
+  defend: 5,
+  agility: 8,
+  timeSpent: 0,
+  statIncrementTime: 0,
+  coins: 0,  
+  currentBossLevel: 1,  
+};
+
+            const userPath = 'users/' + username.replace('.', '_');
+            database.ref(userPath).set(userData);
+            displayUserInfo(username);
+          })
+          .catch((error) => {
+            alert(error.message);
+          });
+      }
+    }
+
+    function setupBossStats(currentBossLevel) {
+  bossHp = 1000 * Math.pow(2, currentBossLevel - 1);
+  bossAttack = 12 * Math.pow(2, currentBossLevel - 1);
+  bossDefense = 8 * Math.pow(2, currentBossLevel - 1);
+  bossAgility = 6 * Math.pow(2, currentBossLevel - 1);
+  updateStats();
+}
+
+function login() {
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+
+      if (email && password) {
+        auth.signInWithEmailAndPassword(email, password)
+          .then(() => {
+            loggedInUser = email; 
+            initializeTimer();
+            displayUserInfo();
+            window.location.href = 'div.html'; 
+          })
+          .catch((error) => {
+            alert(error.message);
+          });
+      }
+    }
+
+
+function displayUserInfo() {
+  const userRef = database.ref('users/' + loggedInUser.replace('.', '_'));
+  console.log("Display user info function");
+  userRef.once('value')
+    .then((snapshot) => {
+      const userData = snapshot.val();
+      console.log('Retrieved user data:', userData);
+
+      if (userData) {
+      
+        const userInfo = document.getElementById('user-info');
+        userInfo.textContent = `Logged in as ${loggedInUser}. Stats: HP(${userData.hp}), Attack(${userData.attack}), Defend(${userData.defend}), Agility(${userData.agility})`;
+
+        const coinsCountElement = document.getElementById('coinsCount');
+        if (coinsCountElement) {
+          coinsCountElement.textContent = userData.coins;
+        }
+      } else {
+        alert('User data not found');
+      }
+    })
+    .catch((error) => {
+      alert(error.message);
+    });
+}
+
+
+function updateUserInfoFromDatabase(username) {
+  return new Promise((resolve, reject) => {
+    const userRef = database.ref('users/' + username.replace('.', '_'));
+    userRef.once('value')
+      .then((snapshot) => {
+        const userData = snapshot.val();
+        if (userData) {
+      
+          userAttack = userData.attack;
+          userDefense = userData.defend;
+          userAgility = userData.agility;
+
+          userHp = userData.hp;
+          updateStats();  
+          resolve();  
+        } else {
+          reject(new Error('User data not found'));
+        }
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+}
+
+
+function downloadPPT() {
+      
+      const pptFilePath = 'ppt_final.pptx';
+
+      const downloadLink = document.createElement('a');
+      downloadLink.href = pptFilePath;
+      downloadLink.download = 'presentation.pptx';
+      
+      document.body.appendChild(downloadLink);
+      downloadLink.click();
+      document.body.removeChild(downloadLink);
+    }
+
+  </script>
+</head>
+
+<body>
+
+  <video id="video-background" autoplay muted loop>
+ 
+    <source src="8bitcity.mp4" type="video/mp4">
+    
+  </video>
+  <h1>Unproductive</h1>
+  <h1>Clockwork Pixel</h1>
+  <div class = "box">
+  
+  <div class="email">
+  <label for="email">Email:</label>
+  <input type="email" id="email" placeholder="Enter your email">
+ 
+
+  
+  <label for="password">Password:</label>
+
+  <input type="password" id="password" placeholder="Enter your password">
+  </div>
+
+  <button onclick="login()">
+    <img src="8bitprops_login.jpg" alt="Login">
+  </button>
+
+  <h2>Don't have an account?</h2>
+  <button onclick="createAccount()">
+    <img src="8bitprops_signup.jpg" alt="Create Account">
+  </button>
+
+   <button onclick="downloadPPT()">
+    Download PPT
+  </button>
+  </div>
+  
+</body>
+
+</html>
