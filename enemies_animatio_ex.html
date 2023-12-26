@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+        .button-89 {
+  --b: 3px;   /* border thickness */
+  --s: .45em; /* size of the corner */
+  --color: #ffffff;
+  
+  padding: calc(.5em + var(--s)) calc(.9em + var(--s));
+  color: var(--color);
+  --_p: var(--s);
+  background:
+    conic-gradient(from 90deg at var(--b) var(--b),#0000 90deg,var(--color) 0)
+    var(--_p) var(--_p)/calc(100% - var(--b) - 2*var(--_p)) calc(100% - var(--b) - 2*var(--_p));
+  transition: .3s linear, color 0s, background-color 0s;
+  outline: var(--b) solid #0000;
+  outline-offset: .6em;
+  font-size: 16px;
+
+  border: 0;
+
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+.button-89:hover,
+.button-89:focus-visible{
+  --_p: 0px;
+  outline-color: var(--color);
+  outline-offset: .05em;
+}
+
+.button-89:active {
+  background: var(--color);
+  color: #fff;
+}
+        
+        .sprite_main_fight {
+            width: 128px; /* Adjust the width and height based on your sprite size */
+            height: 128px;
+        
+            overflow: hidden;
+            bottom: 250px;
+            left: 850px;
+        
+            z-index: 5;
+            position: absolute;
+            /* Adjust based on the number of frames in your sprite sheet */
+           
+        }
+        .main_characters_fight{
+            animation: playSprite_fight 1s steps(6)6;
+            
+        }
+
+        @keyframes playSprite {
+            from {
+                
+                transform: translate3d(0px,0,0) }
+            to { transform: translate3d(-100%,0,0)} /* Adjust based on the total width of your sprite sheet */
+        }
+        .sprite_enemy_fight {
+            width: 128px;
+            height: 128px;
+            bottom: 245px;
+            right: 850px;
+            z-index: 5;
+            position: absolute;
+            background-color: aqua;
+            float: right;
+            align-items: end;
+            animation: moveSprite 4s;
+        }
+
+        .enemy_characters_fight {
+            animation: playSprite_fight 1s steps(7) 6; /* Total duration is 5s (4s animation + 1s pause) */
+        }
+
+        @keyframes playSprite_fight {
+            0%, 100% {
+                transform: translate3d(0px, 0, 0);
+                
+            }
+               
+            100% {
+                transform: translate3d(-100%, 0, 0);
+            }
+            20%{
+                transform: translate3d(0px, 0, 0);
+
+            }
+            
+        
+        }
+
+    </style>
+</head>
+<body style="background-color: black;">
+    <button class="button-89" role="button">Button 89</button>
+    <div class="sprite_main_fight">
+        <img class='main_characters_fight' src="./craftpix-net-620836-free-fantasy-chibi-male-sprites-pixel-art/Swordsman/Attack_1.png" alt="char">
+    </div>
+    <div class="sprite_enemy_fight">
+        <img class='enemy_characters_fight' src="./Attack_3_left.png" alt="char">
+    </div>
+</body>
+</html>
