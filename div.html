@@ -865,25 +865,26 @@
           }
       };
 
-  function initializeTimer() {
-    const username = getUsername();
-    if (username) {
-      const userRef = database.ref('users/' + username.replace('.', '_'));
-      userRef.child('timeSpent').once('value')
-        .then((snapshot) => {
-          const storedTime = snapshot.val();
-          if (storedTime) {
-            seconds = storedTime;
-            document.getElementById('timer').innerText = formatTime(seconds) + ' elapsed';
-          }
-        })
-        .catch((error) => {
-          console.error(error.message);
-        });
-    }
-
-   
+      function initializeTimer() {
+  const username = getUsername();
+  if (username) {
+    const userRef = database.ref('users/' + username.replace('.', '_'));
+    userRef.child('timeSpent').once('value')
+      .then((snapshot) => {
+        const storedTime = snapshot.val();
+        if (storedTime !== null) {
+          // If there's stored time, set seconds to the stored time
+          seconds = storedTime;
+          document.getElementById('timer').innerText = formatTime(seconds) + ' elapsed';
+        }
+      })
+      .catch((error) => {
+        console.error(error.message);
+      });
   }
+}
+
+
 
   function getUsername() {
     return loggedInUser;
