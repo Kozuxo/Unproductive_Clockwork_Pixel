@@ -774,7 +774,6 @@
   let userStatsBeforeFight = null;
 
   let seconds = 0;
-  let seconds2 = 0;
   let statIncrementTime = 0;
   const statIncrementInterval = 300; 
 
@@ -803,13 +802,12 @@
 
   function updateTimer() {
     seconds++;
-    seconds2++;
     document.getElementById('timer').innerText = formatTime(seconds) + ' elapsed';
 
     
     statIncrementTime++;
-    if (seconds2 >= statIncrementInterval) {
-      seconds2 = 0; 
+    if (statIncrementTime >= statIncrementInterval) {
+      statIncrementTime = 0; 
 
       const username = getUsername();
       if (username) {
@@ -821,8 +819,7 @@
             userData.attack++;
             userData.defend++;
             userData.agility++;
-            userData.timeSpent = seconds; // Update timeSpent here
-            userData.statIncrementTime = seconds2;
+            userData.timeSpent = seconds;
             userRef.set(userData);
             displayUserInfo(username);
           })
