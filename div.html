@@ -17,7 +17,7 @@
   <!---->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Unproductive Clockwork Pixel</title>
+  <title>Your Page Title</title>
 
 
   <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
@@ -124,6 +124,19 @@
             left: 850px;
         
             z-index: 5;
+            position: absolute;
+        
+           
+        }
+        .sprite_main_fight_win_lose {
+            width: 128px; 
+            height: 128px;
+        
+            overflow: hidden;
+            bottom: 165px;
+            left: 400px;
+        
+            z-index: 18;
             position: absolute;
         
            
@@ -711,7 +724,34 @@
         main_char.src = "./craftpix-net-620836-free-fantasy-chibi-male-sprites-pixel-art/Swordsman/Idle.png";
         enemy.src = "./craftpix-net-479518-free-fantasy-enemies-pixel-art-sprite-pack/Skeleton/Idle.png";
     }, 2000);
-}
+  }
+  function win_ch() {
+    var enemy = document.getElementById("enemy_win");
+    var main_char = document.getElementById("main_win");
+    var win = document.getElementById("bossHp").textContent;
+    var lose = document.getElementById("userHp").textContent;
+    var loses = parseInt(lose,10);
+    var wins = parseInt(win,10);
+
+    main_char.src = "./craftpix-net-620836-free-fantasy-chibi-male-sprites-pixel-art/Swordsman/Jump.png";
+    main_char.style.animation = "playSprite_fight 1s steps(8) infinite";
+   
+
+  
+  }
+  function lose_ch() {
+    var enemy = document.getElementById("enemy_win");
+    var main_char = document.getElementById("main_win");
+    var win = document.getElementById("bossHp").textContent;
+    var lose = document.getElementById("userHp").textContent;
+    var loses = parseInt(lose,10);
+    var wins = parseInt(win,10);
+
+    main_char.src = "./craftpix-net-620836-free-fantasy-chibi-male-sprites-pixel-art/Swordsman/Dead.png";
+    main_char.style.animation = "playSprite_fight 2s steps(3) infinite";
+
+  
+  }
   let loggedInUser;
   let userData;
 
@@ -1333,6 +1373,7 @@
 
       if (bossHp <= 0) {
         openWinModal();
+        win_ch();
         munculBox();
         resetGame();
       } else {
@@ -1348,6 +1389,7 @@
 
           if (userHp <= 0) {
             openLoseModal();
+            lose_ch();
             munculBox();
             resetGame();
           } else {
@@ -1478,6 +1520,10 @@
 
   <div class="overlay" id="overlay" onclick="closeModalTutorial()"></div>
 <div class="modal" id="modal">
+  <div class="sprite_main_fight_win_lose">
+    <img class='main_characters_fight' src="./craftpix-net-620836-free-fantasy-chibi-male-sprites-pixel-art/Swordsman/Idle.png" alt="char" id="main_win">
+    
+</div>
   <span class="close-btn" onclick="closeModalTurotial()">&times;</span>
   <h2 id="modal-message"></h2>
 </div>
