@@ -25,7 +25,96 @@
   <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-analytics-compat.js"></script>
   <script src="shared.js"></script>
+
+
   <style>
+   .overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 10; /* Set overlay z-index */
+    }
+
+    /* Styling for the modal */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      padding: 20px;
+      background-color: rgba(0, 0, 0, 0.7);
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+      z-index: 20; /* Set modal z-index */
+    }
+
+    /* Styling for the close button */
+    .close-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      cursor: pointer;
+    }
+
+    .tutorial_modal_overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            justify-content: center;
+            align-items: center;
+            z-index: 20;
+        }
+
+        /* Styles for the modal */
+        .tutorial_modal {
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 5px;
+            height: 1000px;
+            width: 1500px;
+            max-width: 100%;
+            max-height: 100%;
+            padding: 20px;
+            text-align: center;
+            z-index: 20;
+        }
+
+        /* Close button style */
+        .tutorial_close_btn {
+            cursor: pointer;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 18px;
+            color: #333;
+        }
+
+        /* Video player styles */
+        .tutorial_video {
+            width: 100%;
+            height: auto;
+            max-height: 80vh; /* Adjust the max-height as needed */
+        }
+
+        /* Image button styles */
+        .tutorial_button {
+            cursor: pointer;
+            border: none;
+            padding: 0;
+            background: none;
+            outline: none;
+            position: fixed;
+            left: 50px;
+            top: 200px;
+            z-index: 18;
+        }
      .sprite_main_fight {
             width: 128px; 
             height: 128px;
@@ -305,7 +394,7 @@
     }
 
     .body_background {
-      background: url('gambarBackground.png')repeat-x;
+      background: url('benben.png')repeat-x;
       height: 550px;
       width: 7560px;
       animation: slide 60s linear infinite;
@@ -556,6 +645,10 @@
             height: 600px;
             width: 950px;
             z-index: 3;
+        }
+        .tutorial_button img {
+            width: 50px;
+            height: 50px;
         }
   </style>
 
@@ -1230,49 +1323,45 @@
           }
       };
 
-  function rollDadu() {
-    rollDice((diceValue) => {
-      
-      diceMultiplier = diceValue;
-      
-    });
-    var damageToBoss = (userAttack * diceMultiplier) - bossDefense;
-    bossHp -= damageToBoss > 0 ? damageToBoss : 0;
+      function rollDadu() {
+      rollDice((diceValue) => {
+        diceMultiplier = diceValue;
+      });
 
-    if (bossHp <= 0) {
-      alert("Congratulations! You defeated the boss!");
-      munculBox();
-      resetGame();
+      var damageToBoss = (userAttack * diceMultiplier) - bossDefense;
+      bossHp -= damageToBoss > 0 ? damageToBoss : 0;
 
-    } else {
-      displayDamageAnimation('bossHp', damageToBoss);
+      if (bossHp <= 0) {
+        openWinModal();
+        munculBox();
+        resetGame();
+      } else {
+        displayDamageAnimation('bossHp', damageToBoss);
 
-      setTimeout(() => {
-        bossDiceRoll = Math.floor(Math.random() * 20) + 1;
-        var damageToUser = (bossAttack * bossDiceRoll) - userDefense;
-        userHp -= damageToUser > 0 ? damageToUser : 0;
+        setTimeout(() => {
+          bossDiceRoll = Math.floor(Math.random() * 20) + 1;
+          var damageToUser = (bossAttack * bossDiceRoll) - userDefense;
+          userHp -= damageToUser > 0 ? damageToUser : 0;
 
-        console.log('Boss inflicted ' + damageToUser + ' damage to the user');
-        console.log('User HP after boss attack:', userHp);
+          console.log('Boss inflicted ' + damageToUser + ' damage to the user');
+          console.log('User HP after boss attack:', userHp);
 
-        if (userHp <= 0) {
-          alert("Game Over! The boss defeated you.");
-          munculBox();
-          resetGame();
-        } else {
-          displayDamageAnimation('userHp', damageToUser);
+          if (userHp <= 0) {
+            openLoseModal();
+            munculBox();
+            resetGame();
+          } else {
+            displayDamageAnimation('userHp', damageToUser);
 
-          // Delay the updateStats and updateBattleLog
-          setTimeout(() => {
-            updateStats();
-            updateBattleLog('User inflicted ' + damageToBoss + ' damage to the boss');
-          }, 1000); 
-        }
-
-
-      }, 1000); 
+            // Delay the updateStats and updateBattleLog
+            setTimeout(() => {
+              updateStats();
+              updateBattleLog('User inflicted ' + damageToBoss + ' damage to the boss');
+            }, 1000);
+          }
+        }, 1000);
+      }
     }
-  }
 
   function munculBox() {
     var fight_buttons = document.getElementById("fight_button");
@@ -1322,6 +1411,23 @@
     document.getElementById('timer').innerText = formatTime(seconds) + ' elapsed';
   }
 
+  function tutorial_openModal() {
+            document.getElementById('tutorial_modalOverlay').style.display = 'flex';
+        }
+
+        // Function to close the modal
+        function tutorial_closeModal() {
+            document.getElementById('tutorial_modalOverlay').style.display = 'none';
+            // Pause the video when the modal is closed
+            document.querySelector('.tutorial_video').pause();
+        }
+
+        // Close the modal if the overlay is clicked
+        window.onclick = function(event) {
+            if (event.target === document.getElementById('tutorial_modalOverlay')) {
+                tutorial_closeModal();
+            }
+        };
 
 
   setInterval(updateTimer, 1000);
@@ -1339,11 +1445,61 @@
     });
   });
 
+
+    // Function to open the modal for winning the game
+    function openWinModal() {
+      document.getElementById('overlay').style.display = 'block';
+      document.getElementById('modal').style.display = 'block';
+      document.getElementById('modal-message').innerHTML = 'Congratulations! You defeated the boss.';
+    }
+
+    // Function to open the modal for losing the game
+    function openLoseModal() {
+      document.getElementById('overlay').style.display = 'block';
+      document.getElementById('modal').style.display = 'block';
+      document.getElementById('modal-message').innerHTML = 'Game Over! The boss defeated you.';
+    }
+
+    function closeModalTutorial() {
+      document.getElementById('overlay').style.display = 'none';
+      document.getElementById('modal').style.display = 'none';
+    }
+    window.onclick = function(event) {
+            if (event.target === document.getElementById('overlay')) {
+              closeModalTutorial()();
+            }
+        };
+
 </script>
 </head>
 
 
 <body>
+
+  <div class="overlay" id="overlay" onclick="closeModalTutorial()"></div>
+<div class="modal" id="modal">
+  <span class="close-btn" onclick="closeModalTurotial()">&times;</span>
+  <h2 id="modal-message"></h2>
+</div>
+
+
+  <button class="tutorial_button" onclick="tutorial_openModal()">
+    <img src="./image_tutorial.png" alt="Tutorial Image">
+</button>
+
+<!-- Modal overlay -->
+<div id="tutorial_modalOverlay" class="tutorial_modal_overlay">
+    <!-- Modal content -->
+    <div class="tutorial_modal">
+        <span class="tutorial_close_btn" onclick="tutorial_closeModal()">&times;</span>
+        <h2>Your Modal Title</h2>
+        <!-- Video player -->
+        <video controls class="tutorial_video">
+            <source src="testingtutor.mkv" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+</div>
   
   <div class="alert_modals hidden" id="alert_modal">
     <div class="alert_modal_content">
