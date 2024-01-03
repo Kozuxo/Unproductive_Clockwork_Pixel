@@ -819,6 +819,7 @@
             userData.attack++;
             userData.defend++;
             userData.agility++;
+            userData.timeSpent = seconds; // Update timeSpent here
             userRef.set(userData);
             displayUserInfo(username);
           })
@@ -1480,10 +1481,7 @@
     return `${hours}:${minutes}:${remainingSeconds}`;
   }
 
-  function updateTimer() {
-    seconds++;
-    document.getElementById('timer').innerText = formatTime(seconds) + ' elapsed';
-  }
+
 
   function tutorial_openModal() {
             document.getElementById('tutorial_modalOverlay').style.display = 'flex';
