@@ -758,17 +758,15 @@
   let userData;
 
   auth.onAuthStateChanged((user) => {
-    if (user) {
-     
-      loggedInUser = user.email;
-      displayUserInfo();
-      initializeTimer();
-    } else {
-      
-      console.log('User is not logged in.');
-
-    }
-  });
+  if (user) {
+    loggedInUser = user.email;
+    displayUserInfo();
+    initializeTimer();
+    startStatIncrementInterval(); // Start the interval for stat increments
+  } else {
+    console.log('User is not logged in.');
+  }
+});
 
 
   let userStatsBeforeFight = null;
@@ -1566,6 +1564,32 @@
         });
     }
   }
+
+  function startStatIncrementInterval() {
+  setInterval(() => {
+    incrementUserStats();
+  }, 5 * 60 * 1000); // 5 minutes interval
+}
+
+function incrementUserStats() {
+  const username = getUsername();
+  if (username) {
+    const userRef = database.ref('users/' + username.replace('.', '_'));
+    userRef.once('value')
+      .then((snapshot) => {
+        const userData = snapshot.val();
+        userData.hp += 100;
+        userData.attack++;
+        userData.defend++;
+        userData.agility++;
+        userRef.set(userData);
+        displayUserInfo(username);
+      })
+      .catch((error) => {
+        console.error(error.message);
+      });
+  }
+}
 
 </script>
 </head>
