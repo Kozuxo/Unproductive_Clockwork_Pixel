@@ -682,6 +682,8 @@
       fight_b_frame.style.display = "none";
       fight_b_frame.classList.add("hidden");
       fight_buttons.classList.add("hidden");
+
+      updateCoinsCount();
       refreshStats()
 
 
@@ -1152,7 +1154,7 @@
         userRef.once('value')
           .then((snapshot) => {
             userData = snapshot.val();  
-            userData.coins++;
+          
             userData.currentBossLevel++;
             userRef.set(userData);
 
@@ -1375,6 +1377,36 @@
         openWinModal();
         win_ch();
         munculBox();
+        const username = getUsername();
+    if (username) {
+      const userRef = database.ref('users/' + username.replace('.', '_'));
+      userRef.once('value')
+        .then((snapshot) => {
+          userData = snapshot.val();  
+          userData.coins++;
+          userData.currentBossLevel++;
+          userRef.set(userData);
+
+          document.getElementById('bossLevel').innerText = userData.currentBossLevel;
+
+          bossHp = 1000 * Math.pow(2, userData.currentBossLevel - 1);
+          bossAttack = 12 * Math.pow(2, userData.currentBossLevel - 1);
+          bossDefense = 8 * Math.pow(2, userData.currentBossLevel - 1);
+          bossAgility = 6 * Math.pow(2, userData.currentBossLevel - 1);
+
+          updateStats();
+          clearBattleLog();
+          displayUserInfo(username);
+
+          bossDefeated = true;
+
+          setupBossStats(userData.currentBossLevel);
+        })
+        .catch((error) => {
+          console.error(error.message);
+        });
+      
+    }
         resetGame();
       } else {
         displayDamageAnimation('bossHp', damageToBoss);
@@ -1511,6 +1543,30 @@
               closeModalTutorial()();
             }
         };
+
+
+        function updateCoinsCount() {
+    const username = getUsername();
+    if (username) {
+      const userRef = database.ref('users/' + username.replace('.', '_'));
+      userRef.once('value')
+        .then((snapshot) => {
+          userData = snapshot.val();
+          
+          userRef.set(userData);
+          
+          const coinsCountElement = document.getElementById('coinsCount');
+          if (coinsCountElement) {
+            coinsCountElement.innerText = userData.coins;
+          } else {
+            console.error('coinsCountElement not found!');
+          }
+        })
+        .catch((error) => {
+          console.error(error.message);
+        });
+    }
+  }
 
 </script>
 </head>
