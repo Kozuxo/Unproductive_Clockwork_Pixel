@@ -17,7 +17,7 @@
   <!---->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Unproductive Clockwork Pixel</title>
+  <title>Your Page Title</title>
 
 
   <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
@@ -1495,7 +1495,7 @@
 
         // Close the modal if the overlay is clicked
         window.onclick = function(event) {
-            if (event.target === document.getElementById('tutorial_modalOverlay')) {
+            if (event.target === document.getElementById('tutorial_modalOverlay2')) {
                 tutorial_closeModal();
             }
         };
@@ -1615,12 +1615,12 @@ function incrementUserStats() {
 <!-- Modal overlay -->
 <div id="tutorial_modalOverlay" class="tutorial_modal_overlay">
     <!-- Modal content -->
-    <div class="tutorial_modal">
-        <span class="tutorial_close_btn" onclick="tutorial_closeModal()">&times;</span>
+    <div class="tutorial_modal" id = "tutorial_modalOverlay2">
+        <span class="tutorial_close_btn" onclick="tutorial_closeModal()" style="color: white; font-size: 26px;">&times;</span>
         <h2>Your Modal Title</h2>
         <!-- Video player -->
         <video controls class="tutorial_video">
-            <source src="testingtutor.mkv" type="video/mp4">
+            <source src="tutorial_video.mp4" type="video/mp4">
             Your browser does not support the video tag.
         </video>
     </div>
